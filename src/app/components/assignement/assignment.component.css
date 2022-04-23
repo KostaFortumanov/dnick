@@ -1,0 +1,3 @@
+:host ::ng-deep .CodeMirror {
+  height: calc(100vh - 150px) !important;
+}

@@ -1,0 +1,68 @@
+<div class="background" style="">
+<div class="container  p-3">
+  <div class="col-md-12" style="">
+    <div class="">
+      <div class="textarea-container">
+        <textarea class="form-control" rows="3" cols="1" placeholder="What are you thinking?" [ngClass]="btn ? '' : 'no-bottom-border'"></textarea>
+        <div class="form-control" [style]="btn ? 'opacity: 0' : ''">
+          <button class="btn btn-sm" [disabled]="btn" >Preview</button>
+        </div>
+      </div>
+        <div class="mt-3 clearfix">
+          <button class="btn btn-sm btn-primary float-end" (click)="toggle()"><i class="fa fa-pencil fa-fw"></i> Share
+          </button>
+        </div>
+    </div>
+<!--    <div class="panel">-->
+<!--      <div class="panel-body">-->
+<!--        <div class="media-block">-->
+<!--          <div class="media-body">-->
+<!--            <div class="">-->
+<!--              <p class="text-semibold media-heading box-inline">Lisa D.</p>-->
+<!--            </div>-->
+<!--            <p>consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam-->
+<!--              erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl-->
+<!--              ut aliquip ex ea commodo consequat.</p>-->
+<!--            <app-non-editable [query]="'const myFunc = () => {\n  console.log(2);\n}\n\nmyFunc()'"></app-non-editable>-->
+<!--            <div class="pad-ver">-->
+<!--              <div class="btn-group">-->
+<!--                <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up text-primary"></i></a>-->
+<!--                <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>-->
+<!--              </div>-->
+<!--              <a class="btn btn-sm btn-default btn-hover-primary" href="#">Reply</a>-->
+<!--            </div>-->
+<!--            <hr>-->
+
+<!--            &lt;!&ndash; Comments &ndash;&gt;-->
+<!--            <div>-->
+<!--              <div class="media-block">-->
+<!--                <div class="media-body">-->
+<!--                  <div class="mar-btm">-->
+<!--                    <p class=" text-semibold media-heading box-inline">Bobby Marz</p>-->
+<!--                  </div>-->
+<!--                  <p>Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim-->
+<!--                    ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea-->
+<!--                    commodo consequat.</p>-->
+<!--                  <div class="pad-ver">-->
+<!--                    <div class="btn-group">-->
+<!--                      <a class="btn btn-sm btn-default btn-hover-success active" href="#"><i-->
+<!--                        class="fa fa-thumbs-up"></i></a>-->
+<!--                      <a class="btn btn-sm btn-default btn-hover-danger text-danger" href="#"><i class="fa fa-thumbs-down"></i></a>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <hr>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;===================================================&ndash;&gt;-->
+<!--        &lt;!&ndash; End Newsfeed Content &ndash;&gt;-->
+
+
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+</div>
+</div>

@@ -1,0 +1,94 @@
+<div class="container">
+<!--  <ngx-dynamic-hooks [content]="test"></ngx-dynamic-hooks>-->
+  <h1 class="">Data types</h1>
+  <hr>
+  <h3>JavaScript's Data Types</h3>
+  <div>
+    <p>The latest ECMAScript standard defines seven data types:</p>
+    <ul>
+      <li>String</li>
+      <li>Number</li>
+      <li>Boolean</li>
+      <li>Undefined</li>
+      <li>Null</li>
+      <li>Object</li>
+      <li>Symbol</li>
+    </ul>
+  </div>
+  <hr>
+  <h3>JavaScript String</h3>
+  <div id="string">
+    <p>String is used to store text. In JavaScript, strings are surrounded by quotes:</p>
+    <ul>
+      <li>Single quotes: 'Hello'</li>
+      <li>Double quotes: "Hello"</li>
+      <li>Backticks: `Hello`</li>
+    </ul>
+    For example,
+    <app-non-editable [query]="example1"></app-non-editable>
+    Single quotes and double quotes are practically the same and you can use either of them.
+
+    Backticks are generally used when you need to include variables or expressions into a string. This is done by
+    wrapping variables or expressions with ${{ "{" }}variable or expression} as shown above.
+  </div>
+  <hr>
+  <h3>JavaScript Number</h3>
+  <div id="number">
+    <p>Number represents integer and floating numbers (decimals and exponentials). For example,</p>
+    <app-non-editable [query]="'const number1 = 3;\n'+
+'const number2 = 3.433;\n'+
+'const number3 = 3e5 // 3 * 10^5'"></app-non-editable>
+    <p>A number type can also be +Infinity, -Infinity, and NaN (not a number). For example,</p>
+    <app-non-editable [query]="example2"></app-non-editable>
+  </div>
+  <hr>
+  <h3>JavaScript Boolean</h3>
+  <div id="boolean">
+    <p>This data type represents logical entities. Boolean represents one of two values: true or false. It is easier to
+      think of it as a yes/no switch. For example,</p>
+    <app-non-editable [query]="'const dataChecked = true;\n'+
+'const valueCounted = false;'"></app-non-editable>
+  </div>
+  <hr>
+  <h3>JavaScript undefined</h3>
+  <div id="undefined">
+    <p>The undefined data type represents value that is not assigned. If a variable is declared but the value is not
+      assigned, then the value of that variable will be undefined. For example,</p>
+    <app-non-editable [query]="'let name;\n'+
+'console.log(name); // undefined'"></app-non-editable>
+  </div>
+  <hr>
+  <h3>JavaScript null</h3>
+  <div id="null">
+    <p>In JavaScript, null is a special value that represents empty or unknown value. For example,</p>
+    <app-non-editable [query]="'const number = null;'"></app-non-editable>
+  </div>
+  <hr>
+  <h3>JavaScript Object</h3>
+  <div id="object">
+    <p>An object is a complex data type that allows us to store collections of data. For example,</p>
+    <app-non-editable [query]="'const student = {\n'+
+'    firstName: \'ram\',\n'+
+'    lastName: null,\n'+
+'    class: 10\n'+
+'};'"></app-non-editable>
+  </div>
+  <hr>
+  <h3>JavaScript typeof</h3>
+  <div id="typeof">
+    <p>To find the type of a variable, you can use the typeof operator. For example,</p>
+    <app-non-editable [query]="'const name = \'ram\';\n'+
+'typeof(name); // returns  string'+
+    '\n'+
+    '\n'+
+    'const number = 4;\n'+
+    'typeof(number); //returns number\n'+
+    '\n'+
+    'const valueChecked = true;\n'+
+    'typeof(valueChecked); //returns boolean\n'+
+    '\n'+
+    'const a = null;\n'+
+    'typeof(a); // returns object'"></app-non-editable>
+  </div>
+  <hr>
+</div>

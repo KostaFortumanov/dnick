@@ -1,0 +1,10 @@
+:host {
+  background-image: url("/./assets/background.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 56px);
+}

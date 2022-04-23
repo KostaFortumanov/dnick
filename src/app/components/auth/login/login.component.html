@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header">
+    <p class="card-title">Login</p>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="loginForm" (submit)="onSubmit()">
+      <div class="form-floating mb-3">
+        <input formControlName="username" type="text" class="form-control" id="username"
+               [ngClass]="submitted && loginForm.controls['username'].invalid ? 'is-invalid' : ''"
+               placeholder="username" required>
+        <label for="username">Username</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input formControlName="password" type="password" class="form-control" id="password"
+               [ngClass]="submitted && loginForm.controls['password'].invalid ? 'is-invalid' : ''"
+               placeholder="password" required>
+        <label for="password">Password</label>
+      </div>
+      <button class="btn btn-primary" disabled *ngIf="loading">
+        <span class="spinner-grow spinner-grow-sm" role="status"></span>
+      </button>
+      <button class="btn btn-primary" type="submit" *ngIf="!loading">
+        Login
+      </button>
+    </form>
+  </div>
+</div>

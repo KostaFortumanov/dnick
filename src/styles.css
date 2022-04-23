@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~codemirror/lib/codemirror.css';
+@import '~codemirror/addon/lint/lint.css';
+@import '~codemirror/addon/hint/show-hint.css';
+@import "~codemirror/theme/darcula.css";
+@import "~codemirror/addon/fold/foldgutter.css";
+
+/*.CodeMirror {*/
+/*  height: calc(100vh - 150px);*/
+/*}*/
+body {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+body::-webkit-scrollbar { /* WebKit */
+  width: 0;
+  height: 0;
+}
