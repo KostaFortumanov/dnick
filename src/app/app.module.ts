@@ -17,6 +17,7 @@ import { RegisterComponent } from './components/auth/register/register.component
 import {DynamicHooksModule, HookParserEntry} from "ngx-dynamic-hooks";
 import { AssignmentComponent } from './components/assignement/assignment.component';
 import { DiscussionComponent } from './components/discussion/discussion.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 const componentParsers: Array<HookParserEntry> = [
     {component: NonEditableComponent},
@@ -42,6 +43,7 @@ const componentParsers: Array<HookParserEntry> = [
         DynamicHooksModule.forRoot({
             globalParsers: componentParsers
         }),
+        NgbModule,
         BrowserModule,
         AppRoutingModule,
         CodemirrorModule,
