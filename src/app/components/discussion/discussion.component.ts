@@ -46,7 +46,7 @@ export class DiscussionComponent implements OnInit {
     }
 
     open(content: any) {
-        this.modalService.open(content, {centered: true, size: 'lg'}).result
+        this.modalService.open(content, {centered: true, size: 'xl'}).result
             .then((result) => {
 
             })
