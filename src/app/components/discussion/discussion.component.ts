@@ -62,7 +62,7 @@ export class DiscussionComponent implements OnInit {
         this.showReply[index] = !this.showReply[index]
     }
 
-    replyToComments(commentId: number) {
+    replyToComments(commentId: number, index: number) {
         this.commentService.comments.filter(comment => comment.id == commentId)[0].replies.unshift({
             id: 0,
             from: 'Kosta Fortumanov',
@@ -73,6 +73,7 @@ export class DiscussionComponent implements OnInit {
             isLiked: false,
             isDisliked: false
         })
+        this.toggleReply(index)
     }
 
     open(content: any) {

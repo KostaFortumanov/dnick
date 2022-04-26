@@ -18,6 +18,8 @@ import {DynamicHooksModule, HookParserEntry} from "ngx-dynamic-hooks";
 import {AssignmentComponent} from './components/assignement/assignment.component';
 import {DiscussionComponent} from './components/discussion/discussion.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { CertifyComponent } from './components/certify/certify.component';
+import { CertifyResultComponent } from './components/certify-result/certify-result.component';
 
 const componentParsers: Array<HookParserEntry> = [
     {component: NonEditableComponent},
@@ -37,6 +39,8 @@ const componentParsers: Array<HookParserEntry> = [
         RegisterComponent,
         AssignmentComponent,
         DiscussionComponent,
+        CertifyComponent,
+        CertifyResultComponent,
     ],
     imports: [
         DynamicHooksModule.forRoot({

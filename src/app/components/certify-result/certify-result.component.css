@@ -1,0 +1,15 @@
+.background {
+  background-image: url("/./assets/background.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 56px);
+}
+
+.container {
+  min-height: calc(100vh - 56px);
+}
+
+.card {
+  width: 350px;
+}

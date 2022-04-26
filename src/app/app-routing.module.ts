@@ -9,6 +9,8 @@ import {AuthComponent} from "./components/auth/auth.component";
 import {RegisterComponent} from "./components/auth/register/register.component";
 import {AssignmentComponent} from "./components/assignement/assignment.component";
 import {DiscussionComponent} from "./components/discussion/discussion.component";
+import {CertifyComponent} from "./components/certify/certify.component";
+import {CertifyResultComponent} from "./components/certify-result/certify-result.component";
 
 const routes: Routes = [
     {
@@ -47,6 +49,20 @@ const routes: Routes = [
                 component: RegisterComponent
             },
         ]
+    },
+    {
+        path: 'certify',
+        component: CertifyComponent,
+        children: [
+            {
+                path: 'problem/:num',
+                component: AssignmentComponent
+            }
+        ]
+    },
+    {
+        path: 'result',
+        component: CertifyResultComponent,
     },
     {
         path: '**',

@@ -1,7 +1,7 @@
 .background{
   background-image: url("/./assets/background.jpg");
   background-attachment: fixed;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   min-height: calc(100vh - 112px);
 }
