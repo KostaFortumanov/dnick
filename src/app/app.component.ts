@@ -29,9 +29,9 @@ export class AppComponent implements OnInit {
             }
         })
 
-        this.messageService.showErrorMessage("error")
-        this.messageService.showSuccessMessage("success")
-        this.messageService.showErrorMessage("error")
+        // this.messageService.showErrorMessage("error")
+        // this.messageService.showSuccessMessage("success")
+        // this.messageService.showErrorMessage("error")
     }
 
     showMessage(message: Message) {
