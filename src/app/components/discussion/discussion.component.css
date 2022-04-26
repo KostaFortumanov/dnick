@@ -62,6 +62,10 @@
   color: var(--bs-primary);
 }
 
+.btn-hover-danger.active {
+  color: var(--bs-danger);
+}
+
 .btn-hover-success:hover {
   color: var(--bs-primary);
 }

@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import { CommentService } from 'src/app/service/comment.service';
+import {CommentService} from 'src/app/service/comment.service';
 import {Comment} from "../../model/comment";
 
 @Component({
@@ -10,8 +10,9 @@ import {Comment} from "../../model/comment";
     styleUrls: ['./discussion.component.css']
 })
 export class DiscussionComponent implements OnInit {
+
     previewBtn = false;
-    reply = false;
+    showReply: boolean[] = [];
     commentInput = new FormControl('')
     @ViewChild('modal') modal!: any;
     preview: string = ''
@@ -38,11 +39,40 @@ export class DiscussionComponent implements OnInit {
         })
 
         this.comments = this.commentService.getComments(0)
+        this.showReply.fill(false, 0, this.comments.length)
     }
 
-    toggleReply() {
+    share() {
+        this.commentService.comments.unshift({
+            id: 0,
+            from: 'Kosta Fortumanov',
+            date: Date.now().toString(),
+            content: this.preview,
+            replies: [],
+            likes: 0,
+            isLiked: false,
+            isDisliked: false
+        })
+
         this.commentInput.setValue('')
-        this.reply = !this.reply
+    }
+
+    toggleReply(index: number) {
+        this.commentInput.setValue('')
+        this.showReply[index] = !this.showReply[index]
+    }
+
+    replyToComments(commentId: number) {
+        this.commentService.comments.filter(comment => comment.id == commentId)[0].replies.unshift({
+            id: 0,
+            from: 'Kosta Fortumanov',
+            date: Date.now().toString(),
+            content: this.preview,
+            replies: [],
+            likes: 0,
+            isLiked: false,
+            isDisliked: false
+        })
     }
 
     open(content: any) {

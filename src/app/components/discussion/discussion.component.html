@@ -12,9 +12,9 @@
           </div>
         </div>
         <div class="mt-3 clearfix">
-          <button class="btn btn-sm btn-primary float-end"><i class="fa fa-pencil fa-fw"></i>Share</button>
+          <button class="btn btn-sm btn-primary float-end" (click)="share()"><i class="fa fa-pencil fa-fw"></i>Share</button>
         </div>
-        <div class="card mt-2 p-3" style="opacity: 0.98" *ngFor="let comment of comments">
+        <div class="card mt-2 p-3" style="opacity: 0.98" *ngFor="let comment of comments; index as i">
           <div class="d-flex justify-content-between align-items-center">
             <div class="user d-flex flex-row align-items-center">
               <span><small class="font-weight-bold text-primary">{{comment.from}}</small></span>
@@ -25,117 +25,48 @@
             <ngx-dynamic-hooks [content]="comment.content"></ngx-dynamic-hooks>
           </div>
           <div class="d-flex justify-content-between mt-2 align-items-center">
-            <a class="reply text-decoration-none" (click)="toggleReply()"><small>Reply</small></a>
+            <a class="reply text-decoration-none" (click)="toggleReply(i)"><small>Reply</small></a>
             <div class="btn-group">
-              <a class="btn btn-sm" href="#"><span>{{comment.likes}} - </span><i
-                class="fa fa-thumbs-up btn-hover-success" [ngClass]="comment.isLiked ? 'active' : ''"></i></a>
-              <a class="btn btn-sm btn-hover-danger" [ngClass]="comment.isLiked ? 'active' : ''"><i class="fa fa-thumbs-down"></i></a>
+              <a class="btn btn-sm btn-hover-success"
+                 [ngClass]="comment.isLiked ? 'active' : ''"><span>{{comment.likes}} - </span><i
+                class="fa fa-thumbs-up"></i></a>
+              <a class="btn btn-sm btn-hover-danger" [ngClass]="comment.isDisliked ? 'active' : ''"><i
+                class="fa fa-thumbs-down"></i></a>
             </div>
           </div>
           <div class="d-flex flex-column align-items-end mt-3">
-            <div class="textarea-container w-75" *ngIf="reply">
+            <div class="textarea-container w-75" *ngIf="showReply[i]">
           <textarea class="form-control" rows="3" placeholder="What are you thinking?"
                     [ngClass]="previewBtn ? 'no-bottom-border' : ''" [formControl]="commentInput"></textarea>
               <div class="form-control" [style]="previewBtn ? '' : 'opacity: 0'">
                 <button class="btn btn-sm" [disabled]="!previewBtn" (click)="open(content)">Preview</button>
               </div>
             </div>
-            <div class="mt-2 clearfix" *ngIf="reply">
-              <button class="btn btn-sm btn-primary float-end"><i class="fa fa-pencil fa-fw"></i> Reply
+            <div class="mt-2 clearfix" *ngIf="showReply[i]">
+              <button class="btn btn-sm btn-primary float-end" (click)="replyToComments(comment.id)"><i class="fa fa-pencil fa-fw"></i> Reply
               </button>
             </div>
-            <div class="card mt-2 p-3 w-75">
+            <div class="card mt-2 p-3 w-75" *ngFor="let reply of comment.replies">
               <div class="d-flex justify-content-between align-items-center">
                 <div class="user d-flex flex-row align-items-center">
-                  <span><small class="font-weight-bold text-primary">james_olesenn</small></span>
+                  <span><small class="font-weight-bold text-primary">{{reply.from}}</small></span>
                 </div>
-                <small>2 days ago</small>
+                <small>{{reply.date | date: 'short'}}</small>
               </div>
               <div class="mt-1">
-                Hmm, This poster looks cool
-                <app-non-editable [query]="'console.log()'"></app-non-editable>
+                <ngx-dynamic-hooks [content]="reply.content"></ngx-dynamic-hooks>
               </div>
               <div class="d-flex justify-content-between mt-2 align-items-center">
                 <div></div>
                 <div class="btn-group">
-                  <a class="btn btn-sm btn-default btn-hover-success active" href="#">24 - <i
+                  <a class="btn btn-sm btn-default btn-hover-success"
+                     [ngClass]="comment.isLiked ? 'active' : ''">{{reply.likes}} - <i
                     class="fa fa-thumbs-up"></i></a>
-                  <a class="btn btn-sm btn-default btn-hover-danger text-danger" href="#"><i
+                  <a class="btn btn-sm btn-default btn-hover-danger" [ngClass]="reply.isDisliked ? 'active' : ''"
+                     href="#"><i
                     class="fa fa-thumbs-down"></i></a>
                 </div>
               </div>
-            </div>
-            <div class="card mt-2 p-3 w-75">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="user d-flex flex-row align-items-center">
-                  <span><small class="font-weight-bold text-primary">james_olesenn</small></span>
-                </div>
-                <small>2 days ago</small>
-              </div>
-              <small
-                class="font-weight-bold">Hmm, This poster looks cool</small>
-              <div class="d-flex justify-content-between mt-2 align-items-center">
-                <div></div>
-                <div class="btn-group">
-                  <a class="btn btn-sm btn-default btn-hover-success active" href="#">24 - <i
-                    class="fa fa-thumbs-up"></i></a>
-                  <a class="btn btn-sm btn-default btn-hover-danger text-danger" href="#"><i
-                    class="fa fa-thumbs-down"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="card mt-2 p-3 w-75">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="user d-flex flex-row align-items-center">
-                  <span><small class="font-weight-bold text-primary">james_olesenn</small></span>
-                </div>
-                <small>2 days ago</small>
-              </div>
-              <small
-                class="font-weight-bold">Hmm, This poster looks cool</small>
-              <div class="d-flex justify-content-between mt-2 align-items-center">
-                <div></div>
-                <div class="btn-group">
-                  <a class="btn btn-sm btn-default btn-hover-success active" href="#">24 - <i
-                    class="fa fa-thumbs-up"></i></a>
-                  <a class="btn btn-sm btn-default btn-hover-danger text-danger" href="#"><i
-                    class="fa fa-thumbs-down"></i></a>
-                </div>
-              </div>
-            </div>
-            <a class="reply text-decoration-none w-75 mt-1 text-center"><small>View more</small></a>
-          </div>
-        </div>
-        <div class="card mt-2 p-3" style="opacity: 0.98">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="user d-flex flex-row align-items-center">
-              <span><small class="font-weight-bold text-primary">james_olesenn</small></span>
-            </div>
-            <small>2 days ago</small>
-          </div>
-          <div class="mt-1">
-            Hmm, This poster looks cool
-            <app-non-editable [query]="'a'"></app-non-editable>
-          </div>
-          <div class="d-flex justify-content-between mt-2 align-items-center">
-            <a class="reply text-decoration-none" (click)="toggleReply()"><small>Reply</small></a>
-            <div class="btn-group">
-              <a class="btn btn-sm" href="#"><span>24 - </span><i
-                class="fa fa-thumbs-up btn-hover-success active"></i></a>
-              <a class="btn btn-sm btn-hover-danger text-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
-            </div>
-          </div>
-          <div class="d-flex flex-column align-items-end mt-3">
-            <div class="textarea-container w-75" *ngIf="reply">
-          <textarea class="form-control" rows="3" placeholder="What are you thinking?"
-                    [ngClass]="previewBtn ? 'no-bottom-border' : ''" [formControl]="commentInput"></textarea>
-              <div class="form-control" [style]="previewBtn ? '' : 'opacity: 0'">
-                <button class="btn btn-sm" [disabled]="!previewBtn" (click)="open(content)">Preview</button>
-              </div>
-            </div>
-            <div class="mt-2 clearfix" *ngIf="reply">
-              <button class="btn btn-sm btn-primary float-end"><i class="fa fa-pencil fa-fw"></i> Reply
-              </button>
             </div>
           </div>
         </div>
@@ -146,7 +77,7 @@
 </div>
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="staticBackdropLabel">Preview</h5>
+    <h5 class="modal-title">Preview</h5>
   </div>
   <div class="modal-body">
     <ngx-dynamic-hooks [content]="preview"></ngx-dynamic-hooks>

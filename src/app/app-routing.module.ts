@@ -21,7 +21,7 @@ const routes: Routes = [
         children: [{
             path: '',
             component: AssignmentComponent
-        },{
+        }, {
             path: 'discussion',
             component: DiscussionComponent
         }]
