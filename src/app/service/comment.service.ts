@@ -37,7 +37,7 @@ export class CommentService {
                     id: 4,
                     from: 'Jane Doe',
                     date: '04/25/2022 20:00',
-                    content: 'This version will be faster<br><app-non-editable>() - ; a.slice(d - a.length).concat(a.slice(0, d - a.length))</app-non-editable>',
+                    content: 'This version will be faster<br><app-non-editable>() - > a.slice(d - a.length).concat(a.slice(0, d - a.length))</app-non-editable>',
                     replies: [],
                     likes: 7,
                     isLiked: true,
