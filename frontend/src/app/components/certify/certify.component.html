@@ -1,0 +1,25 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="navbar-expand">
+      <ul class="navbar-nav">
+        <li class="align-self-center fw-bolder" [ngClass]="certification.timeLeft < 600 ? 'text-danger' : ''">
+          {{certification.timeLeft | time}}
+        </li>
+        <li class="nav-item">
+          <button [disabled]="num==0" (click)="prev()" class="btn">Previous</button>
+        </li>
+        <li class="align-self-center">
+          {{num + 1}} / {{certification.problems.length}}
+        </li>
+        <li class="nav-item">
+          <button [disabled]="num==certification.problems.length - 1" (click)="next()" class="btn">Next</button>
+        </li>
+        <li class="nav-item">
+          <button *ngIf="num==certification.problems.length - 1" (click)="submit()" class="btn btn-primary">Submit
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<app-assignement [problem]="currentProblem" [num]="num"></app-assignement>

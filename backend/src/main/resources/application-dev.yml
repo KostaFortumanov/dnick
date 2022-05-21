@@ -1,0 +1,6 @@
+spring:
+  flyway:
+    placeholderReplacement: false
+    locations:
+      - classpath:db/migration
+      - classpath:db/migration-dev
