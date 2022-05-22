@@ -1,22 +1,24 @@
 spring:
 
-  profiles:
-    active: dev
-
   datasource:
-    url: "jdbc:postgresql://localhost:5432/learntocode"
-    username: "${DB_USERNAME}"
-    password: "${DB_PASSWORD}"
+    url: "jdbc:${DATABASE_URL}"
+    username: "${DATABASE_USERNAME}"
+    password: "${DATABASE_PASSWORD}"
 
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: validate
 
+  flyway:
+    placeholderReplacement: false
+    locations:
+      - classpath:db/migration
+
   mail:
     host: smtp.office365.com
     port: 587
-    username: "${EMAIL}"
+    username: "${EMAIL_USERNAME}"
     password: "${EMAIL_PASSWORD}"
 
     properties:
@@ -29,4 +31,4 @@ spring:
 jwtSecret: "${JWT_SECRET}"
 jwtExpirationMs: "86400000"
 frontUrl: "${FRONT_URL}"
-email: "${EMAIL}"
+email: "${EMAIL_PASSWORD}"

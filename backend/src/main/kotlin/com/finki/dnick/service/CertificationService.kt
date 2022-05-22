@@ -5,13 +5,17 @@ import com.finki.dnick.domain.DownloadLink
 import com.finki.dnick.repository.AppUserRepository
 import com.finki.dnick.repository.CertificationRepository
 import com.finki.dnick.repository.DownloadLinkRepository
+import com.finki.dnick.scheduler.TaskDefinition
+import com.finki.dnick.scheduler.TaskDefinitionBean
+import com.finki.dnick.scheduler.TaskSchedulingService
 import com.finki.dnick.service.code_execution.CodeExecutionService
 import com.finki.dnick.util.MapperService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.UUID
+import java.time.LocalTime
+import java.util.*
 
 @Service
 class CertificationService(
@@ -20,6 +24,8 @@ class CertificationService(
     val appUserRepository: AppUserRepository,
     val codeExecutionService: CodeExecutionService,
     val downloadLinkRepository: DownloadLinkRepository,
+    val taskSchedulingService: TaskSchedulingService,
+    val taskDefinitionBean: TaskDefinitionBean,
 ) {
 
     fun getActiveCertification(): Response {
@@ -46,6 +52,15 @@ class CertificationService(
             BadRequestResponse("Certification already in progress")
         } ?: run {
             appUserRepository.save(user.copy(certification = it, timeStarted = LocalDateTime.now()))
+
+            val time = LocalTime.now().plusSeconds(it.timeLimitSeconds.toLong() + 10)
+            val cron = "${time.second} ${time.minute} ${time.hour} * * *"
+            val jobId = UUID.randomUUID().toString()
+
+            taskDefinitionBean.setTaskDefinition(TaskDefinition(cron, jobId, user.id))
+
+            taskSchedulingService.scheduleATask(jobId, taskDefinitionBean, cron)
+
             SuccessResponse(it.problems.size)
         }
     } ?: NotFoundResponse("Certification not found")
@@ -64,18 +79,25 @@ class CertificationService(
 
             val passed = score >= 70
             var token: String? = null
-            if(passed && !user.finishedCertificates.contains(it.id)) {
+            if (passed && !user.finishedCertificates.contains(it.id)) {
                 token = UUID.randomUUID().toString()
                 downloadLinkRepository.save(DownloadLink(token, user.id, it.id))
             }
             user.finishedCertificates.add(it.id)
             appUserRepository.save(user.copy(certification = null, timeStarted = null))
-            return SuccessResponse(CertificationResultResponse(
-                problemResults,
-                score,
-                score >= 70,
-                "http://localhost:8080/api/certify/download?token=${token ?: downloadLinkRepository.findByCertificationIdAndUserId(it.id, user.id).token}"
-            ))
+            return SuccessResponse(
+                CertificationResultResponse(
+                    problemResults,
+                    score,
+                    passed,
+                    "https://dnick-api-protitip.herokuapp.com/api/certify/download?token=${
+                        token ?: downloadLinkRepository.findByCertificationIdAndUserId(
+                            it.id,
+                            user.id
+                        )?.token
+                    }"
+                )
+            )
         }
 
         return NotFoundResponse("No active certification")
@@ -86,7 +108,7 @@ class CertificationService(
             downloadLinkRepository.findAllByUserId(user.id).map {
                 MyProfileResponse(
                     certificationRepository.findByIdOrNull(it.certificationId)?.title ?: "",
-                    "http://localhost:8080/api/certify/download?token=${it.token}"
+                    "https://dnick-api-protitip.herokuapp.com/api/certify/download?token=${it.token}"
                 )
             }
         }

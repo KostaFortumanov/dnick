@@ -30,6 +30,7 @@ export class TopicComponent implements OnInit {
         ).subscribe({
             next: (data) => {
                 this.topic = data.response
+                console.log(this.topic.content)
             },
             error: err => {
                 this.messageService.showErrorMessage(err.error.message)

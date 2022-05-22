@@ -29,6 +29,7 @@ export class DiscussionComponent implements OnInit {
     page = 0;
     last = true;
     strategy = 'add'
+    loading = false;
 
     constructor(
         private modalService: NgbModal,
@@ -42,7 +43,6 @@ export class DiscussionComponent implements OnInit {
         this.commentInput.valueChanges.subscribe({
             next: (data) => {
                 this.previewBtn = !!data;
-                console.log(data)
                 this.preview = data.replace(/<code>\n?/g, "<app-non-editable>")
                     .replace(/\n?<\/code>/g, "</app-non-editable>")
                     .replace(/</g, '< ')
@@ -50,8 +50,6 @@ export class DiscussionComponent implements OnInit {
                     .replace(/\n/g, '<br>')
                     .replace(/< app-non-editable >/g, "<app-non-editable>")
                     .replace(/< \/app-non-editable >/g, "</app-non-editable>")
-
-                console.log(this.preview)
             }
         })
 
@@ -62,6 +60,7 @@ export class DiscussionComponent implements OnInit {
             }
         })
 
+        this.loading = true;
         this.$comments.pipe(
             mergeMap((strategy) => {
                 this.strategy = strategy
@@ -76,14 +75,13 @@ export class DiscussionComponent implements OnInit {
         ).subscribe({
             next: (data) => {
                 if (this.strategy == 'reset') {
-                    console.log('resseting')
                     this.comments = []
                 }
                 this.showReply = []
-                console.log(data)
                 this.comments = this.comments.concat(data.content)
                 this.last = data.last
                 this.showReply.fill(false, 0, this.comments.length)
+                this.loading = false;
             }
         })
 
@@ -91,13 +89,13 @@ export class DiscussionComponent implements OnInit {
     }
 
     viewMore() {
+        this.loading = true;
         this.page++
         this.$comments.next('add')
     }
 
     share() {
         let id = +this.route.parent?.snapshot.paramMap.get("id")!
-        console.log(this.preview)
         this.commentService.postComment(id, this.preview).subscribe({
             next: (data) => {
                 this.comments.unshift(data.response)

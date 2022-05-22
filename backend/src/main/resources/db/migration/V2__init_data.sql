@@ -1137,5 +1137,5 @@ values (1, 8),
        (1, 10);
 
 insert into app_users(username, first_name, last_name, email, password, is_enabled)
-values ('kosta', 'kosta', 'kosta', 'kosta@mail.com', '$2a$10$GmtqmHUPt4SSJcpoPVBxnOjzrFhSDAXmNNafslxVXonqOir6BpaV.',
+values ('test', 'Test', 'Test', 'test@mail.com', '$2a$10$6lySfD5uS6.eLGOMmEmWW.ISnYHth2TEr1sXZDh5yMfVdffrFntH.',
         true);

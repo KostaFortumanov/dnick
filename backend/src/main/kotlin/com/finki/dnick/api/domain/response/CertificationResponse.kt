@@ -1,7 +1,6 @@
 package com.finki.dnick.api.domain.response
 
 import com.finki.dnick.domain.Problem
-import javax.persistence.OneToMany
 
 data class CertificationResponse(
     val id: Long,

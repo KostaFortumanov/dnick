@@ -3,6 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {User} from "../model/user";
 import {Response} from "../model/response";
+import {environment} from "../../environments/environment.prod";
+
+const API = environment.apiUrl
 
 @Injectable({
     providedIn: 'root'
@@ -13,14 +16,14 @@ export class AuthService {
     }
 
     login(username: string, password: string): Observable<User> {
-        return this.http.post<User>('/api/auth/login', {
+        return this.http.post<User>(API + '/api/auth/login', {
             username: username,
             password: password
         });
     }
 
     activateAccount(token: string): Observable<Response<string>> {
-        return this.http.post<Response<string>>('/api/auth/activate', token);
+        return this.http.post<Response<string>>(API + '/api/auth/activate', token);
     }
 
     register(username: string,
@@ -28,7 +31,7 @@ export class AuthService {
              firstName: string,
              lastName: string,
              password: string): Observable<Response<string>> {
-        return this.http.post<Response<string>>('/api/auth/register', {
+        return this.http.post<Response<string>>(API + '/api/auth/register', {
             username: username,
             email: email,
             firstName: firstName,

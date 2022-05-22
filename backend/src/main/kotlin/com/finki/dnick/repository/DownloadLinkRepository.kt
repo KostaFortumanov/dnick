@@ -7,5 +7,5 @@ interface DownloadLinkRepository : JpaRepository<DownloadLink, String> {
 
     fun findAllByUserId(userId: Long): List<DownloadLink>
 
-    fun findByCertificationIdAndUserId(certificationId: Long, userId: Long): DownloadLink
+    fun findByCertificationIdAndUserId(certificationId: Long, userId: Long): DownloadLink?
 }

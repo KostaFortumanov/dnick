@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping("/api/certify")
+@CrossOrigin(origins = ["*"])
 class CertifyController(
     val certificationService: CertificationService,
     val mapperService: MapperService,

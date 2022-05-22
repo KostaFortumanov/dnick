@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/problem")
+@CrossOrigin(origins = ["*"])
 class ProblemController(
     val problemService: ProblemService,
     val codeExecutionService: CodeExecutionService,

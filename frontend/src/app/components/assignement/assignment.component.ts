@@ -19,6 +19,7 @@ export class AssignmentComponent implements OnInit, OnChanges {
     @Input() num!: number
     testCases: TestCase[] = []
     passed = 0;
+    loadingPage = false;
     loading = false;
 
     codeMirrorOptions: any = {
@@ -55,6 +56,7 @@ export class AssignmentComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
+        this.loadingPage = true;
         if (this.route.snapshot.url[0]?.path == 'certify') {
             this.certification = true;
             this.setQuery()
@@ -69,9 +71,11 @@ export class AssignmentComponent implements OnInit, OnChanges {
                 next: (data) => {
                     this.problem = data.response
                     this.setQuery()
+                    this.loadingPage = false;
                 },
                 error: err => {
                     this.messageService.showErrorMessage(err.error.message)
+                    this.loadingPage = false;
                 }
             })
         }
@@ -88,7 +92,6 @@ export class AssignmentComponent implements OnInit, OnChanges {
         if (this.certification) {
             window.localStorage.setItem(`certify-${this.num}`, this.query)
         }
-        console.log(this.query);
     }
 
     submit(content: any) {
@@ -119,7 +122,6 @@ export class AssignmentComponent implements OnInit, OnChanges {
                     })
             }
         })
-        console.log(JSON.stringify(this.query))
     }
 
     reset() {

@@ -6,6 +6,7 @@ import {Certification} from "../../model/certification";
 import {CertifyService} from "../../service/certify.service";
 import {MessageService} from "../../service/message.service";
 import {TokenService} from "../../service/token.service";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
     selector: 'app-home',
@@ -20,6 +21,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     selectedCertification: Certification | undefined
     inProgress: Certification | undefined;
     interval: any
+    loading = false;
+
+    destroy$ = new Subject();
 
     constructor(
         private modalService: NgbModal,
@@ -32,10 +36,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+
+        this.loading = true;
+        this.tokenService.getLogoutEvent().pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: () => {
+                for (let part of this.keys) {
+                    for (let item of this.homeItems.get(part)) {
+                        item.finished = false;
+                    }
+                }
+            }
+        })
+
         this.topicService.getHome().subscribe({
             next: (data) => {
                 this.homeItems = new Map(Object.entries(data))
                 this.keys = Array.from(this.homeItems.keys())
+                this.loading = false;
             }
         })
 
@@ -93,6 +112,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        this.destroy$.next('')
+        this.destroy$.complete()
         clearInterval(this.interval)
     }
 }

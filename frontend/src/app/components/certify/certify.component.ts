@@ -17,6 +17,7 @@ export class CertifyComponent implements OnInit, OnDestroy {
     certification!: Certification
     currentProblem: Problem | undefined
     interval: any
+    loading = true;
 
     constructor(
         private router: Router,
@@ -32,11 +33,13 @@ export class CertifyComponent implements OnInit, OnDestroy {
             mergeMap(id => this.certifyService.getActiveCertification()),
         ).subscribe({
             next: (data) => {
+                this.loading = false;
                 this.certification = data.response;
                 this.currentProblem = this.certification.problems[this.num]
                 this.interval = setInterval(() => {
                     this.certification.timeLeft--;
                     if (this.certification.timeLeft == 0) {
+                        clearInterval(this.interval)
                         this.submit()
                     }
                 }, 1000)
@@ -57,6 +60,7 @@ export class CertifyComponent implements OnInit, OnDestroy {
     }
 
     submit() {
+        this.loading = true;
         let sourceCodes: string[] = []
         for (let i = 0; i < this.certification.problems.length; i++) {
             let code = window.localStorage.getItem(`certify-${i}`)

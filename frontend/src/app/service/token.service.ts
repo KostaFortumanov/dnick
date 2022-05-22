@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {User} from "../model/user";
+import {Observable, Subject} from "rxjs";
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
@@ -9,7 +10,10 @@ const USER_KEY = 'auth-user';
 })
 export class TokenService {
 
+    private logOutEvent = new Subject();
+
     logOut(): void {
+        this.logOutEvent.next('');
         window.sessionStorage.clear();
     }
 
@@ -43,8 +47,10 @@ export class TokenService {
 
     isLoggedIn(): boolean {
         let user = this.getUser();
-        let res = !!user && !!user?.token;
-        console.log(res)
-        return res
+        return !!user && !!user?.token
+    }
+
+    getLogoutEvent(): Observable<any> {
+        return this.logOutEvent.asObservable()
     }
 }

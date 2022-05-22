@@ -5,16 +5,11 @@ import com.finki.dnick.service.CommentService
 import com.finki.dnick.util.MapperService
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/discussion")
+@CrossOrigin(origins = ["*"])
 class DiscussionController(
     val commentService: CommentService,
     val mapperService: MapperService,

@@ -5,6 +5,9 @@ import {Certification} from "../model/certification";
 import {Response} from "../model/response";
 import {CertifyResult} from "../model/certifyResult";
 import {MyProfile} from "../model/myProfile";
+import {environment} from "../../environments/environment.prod";
+
+const API = environment.apiUrl
 
 @Injectable({
     providedIn: 'root'
@@ -15,22 +18,22 @@ export class CertifyService {
     }
 
     getAll(): Observable<Certification[]> {
-        return this.http.get<Certification[]>('/api/certify')
+        return this.http.get<Certification[]>(API + '/api/certify')
     }
 
     getActiveCertification(): Observable<Response<Certification>> {
-        return this.http.get<Response<Certification>>('/api/certify/active')
+        return this.http.get<Response<Certification>>(API + '/api/certify/active')
     }
 
     start(certificationId: number): Observable<Response<number>> {
-        return this.http.put<Response<any>>(`/api/certify/${certificationId}`, '')
+        return this.http.put<Response<any>>(API + `/api/certify/${certificationId}`, '')
     }
 
     submit(sourceCodes: string[]): Observable<Response<CertifyResult>> {
-        return this.http.post<Response<any>>('/api/certify/submit', sourceCodes)
+        return this.http.post<Response<any>>(API + '/api/certify/submit', sourceCodes)
     }
 
     getCompleted(): Observable<MyProfile[]> {
-        return this.http.get<MyProfile[]>('/api/certify/completed')
+        return this.http.get<MyProfile[]>(API + '/api/certify/completed')
     }
 }
