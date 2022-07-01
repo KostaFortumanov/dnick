@@ -1,9 +1,9 @@
 spring:
 
   datasource:
-    url: "jdbc:${DATABASE_URL}"
-    username: "${DATABASE_USERNAME}"
-    password: "${DATABASE_PASSWORD}"
+    url: "jdbc:postgresql://localhost:5432/learntocode"
+    username: "postgres"
+    password: "postgres"
 
   jpa:
     show-sql: true
@@ -15,20 +15,5 @@ spring:
     locations:
       - classpath:db/migration
 
-  mail:
-    host: smtp.office365.com
-    port: 587
-    username: "${EMAIL_USERNAME}"
-    password: "${EMAIL_PASSWORD}"
-
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-
-
-jwtSecret: "${JWT_SECRET}"
+jwtSecret: "longsecurejwtsecret"
 jwtExpirationMs: "86400000"
-frontUrl: "${FRONT_URL}"
-email: "${EMAIL_PASSWORD}"

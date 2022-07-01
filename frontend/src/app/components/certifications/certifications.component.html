@@ -1,0 +1,41 @@
+<app-overlay-loading [loading]="loading"></app-overlay-loading>
+<div class="background">
+  <div class="container">
+    <div class="p-3">
+      <ul *ngIf="tokenService.isLoggedIn()" class="list-group">
+        <button *ngFor="let certification of certifications"
+                class="list-group-item d-flex justify-content-between align-items-center"
+                [ngClass]="inProgress && certification.id == inProgress.id ? 'bg-warning' : ''"
+                (click)="open(content, certification)">
+          {{certification.title}} {{inProgress ? '- in progress' : ''}}
+          <span *ngIf="inProgress && certification.id == inProgress.id">Time left: {{inProgress.timeLeft | time}}</span>
+          <span *ngIf="(!inProgress || certification?.id != inProgress.id) && certification.finished"
+                class="badge bg-success rounded-pill">&checkmark;</span>
+        </button>
+        <li class="list-group-item">Coming soon...</li>
+      </ul>
+      <ul *ngIf="!tokenService.isLoggedIn()" class="list-group">
+        <li class="list-group-item">Login to view certifications</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div *ngIf="selectedCertification">
+    <div class="modal-header">
+      <h5 class="modal-title">Start {{selectedCertification.title}} test</h5>
+    </div>
+    <div class="modal-body">
+      <p>
+        There are three problems on the test with a time limit of one hour. Make sure you are in a quiet room with
+        enough
+        time.
+      </p>
+      <p class="fw-bold">Are you sure you want to start?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="close()">Close</button>
+      <a class="btn btn-primary" (click)="start(selectedCertification.id)">Start</a>
+    </div>
+  </div>
+</ng-template>

@@ -58,12 +58,6 @@ class AuthController(
         return mapperService.mapResponseToResponseEntity(result)
     }
 
-    @GetMapping("/activate")
-    fun activateAccount(@RequestBody token: String): ResponseEntity<out Response> {
-        val result = appUserService.activateAccount(token)
-        return mapperService.mapResponseToResponseEntity(result)
-    }
-
     @GetMapping("/test")
     fun test() = commentRepository.findByIdOrNull(1)
 }

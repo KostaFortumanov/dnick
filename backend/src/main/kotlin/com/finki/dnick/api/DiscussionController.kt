@@ -1,10 +1,15 @@
 package com.finki.dnick.api
 
+import com.finki.dnick.api.domain.response.BadRequestResponse
 import com.finki.dnick.api.domain.response.Response
+import com.finki.dnick.api.domain.response.SuccessResponse
+import com.finki.dnick.domain.AppUser
+import com.finki.dnick.service.AppUserService
 import com.finki.dnick.service.CommentService
 import com.finki.dnick.util.MapperService
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.*
 class DiscussionController(
     val commentService: CommentService,
     val mapperService: MapperService,
+    val appUserService: AppUserService
 ) {
 
     @GetMapping("/{id}")
@@ -42,4 +48,28 @@ class DiscussionController(
         val result = commentService.dislikeComment(id)
         return mapperService.mapResponseToResponseEntity(result)
     }
+
+    @DeleteMapping("/delete/{id}")
+    fun deleteComment(@PathVariable id: Long) = if (commentService.deleteComment(id) == 1) {
+        val user = getUser()
+        val liked = user.likedComments
+        val disliked = user.dislikedComments
+        val comment = commentService.findComment(id)!!
+        val response = SuccessResponse(mapperService.mapToCommentResponse(comment, liked, disliked))
+        if(comment.replies.isEmpty() && comment.discussionId != null) {
+            commentService.deleteById(id);
+        }
+        response
+    } else {
+        BadRequestResponse("Comment bot found")
+    }
+
+    @PutMapping("/edit/{id}")
+    fun editComment(@PathVariable id: Long, @RequestBody content: String): ResponseEntity<out Response> {
+        val result = commentService.editComment(id, content)
+        return mapperService.mapResponseToResponseEntity(result)
+    }
+
+    private fun getUser() =
+        appUserService.loadUserByUsername((SecurityContextHolder.getContext().authentication.principal as AppUser).username)!!
 }

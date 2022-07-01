@@ -24,6 +24,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {JwtInterceptor} from "./helper/jwt.interceptor";
 import {TimeLeftPipe} from "./pipe/TimeLeftPipe";
 import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
+import { CertificationsComponent } from './components/certifications/certifications.component';
 
 const componentParsers: Array<HookParserEntry> = [
     {component: NonEditableComponent},
@@ -47,6 +48,7 @@ const componentParsers: Array<HookParserEntry> = [
         CertifyResultComponent,
         TimeLeftPipe,
         OverlayLoadingComponent,
+        CertificationsComponent,
     ],
     imports: [
         DynamicHooksModule.forRoot({

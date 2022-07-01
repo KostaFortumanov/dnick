@@ -28,7 +28,16 @@
             <div class="user d-flex flex-row align-items-center">
               <span><small class="font-weight-bold text-primary">{{comment.from}}</small></span>
             </div>
-            <small>{{comment.commentDate | date: 'short'}}</small>
+            <small>
+              <div class="d-inline" *ngIf="comment.userId == tokenService.getUser()?.id">
+                <button (click)="openEditModal(editModal, comment)" ngbTooltip="Edit" class="me-1 btn btn-sm btn-primary">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button (click)="openDeleteModal(deleteModal, comment)" ngbTooltip="Delete" class="btn btn-sm btn-danger">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+              {{comment.commentDate | date: 'short'}}</small>
           </div>
           <div class="mt-1">
             <ngx-dynamic-hooks [content]="comment.content"></ngx-dynamic-hooks>
@@ -39,7 +48,8 @@
               <a (click)="like(comment)" class="btn btn-sm btn-hover-success"
                  [ngClass]="comment.isLiked ? 'active' : ''"><span>{{comment.likes}} - </span><i
                 class="fa fa-thumbs-up"></i></a>
-              <a (click)="dislike(comment)" class="btn btn-sm btn-hover-danger" [ngClass]="comment.isDisliked ? 'active' : ''"><i
+              <a (click)="dislike(comment)" class="btn btn-sm btn-hover-danger"
+                 [ngClass]="comment.isDisliked ? 'active' : ''"><i
                 class="fa fa-thumbs-down"></i></a>
             </div>
           </div>
@@ -61,7 +71,17 @@
                 <div class="user d-flex flex-row align-items-center">
                   <span><small class="font-weight-bold text-primary">{{reply.from}}</small></span>
                 </div>
-                <small>{{reply.commentDate | date: 'short'}}</small>
+                <small>
+                  <div class="d-inline" *ngIf="reply.userId == tokenService.getUser()?.id">
+                    <button (click)="openEditModal(editModal, reply)" ngbTooltip="Edit" class="me-1 btn btn-sm btn-primary">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                    <button (click)="openDeleteModal(deleteModal, reply)" ngbTooltip="Delete" class="btn btn-sm btn-danger">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                  {{reply.commentDate | date: 'short'}}
+                </small>
               </div>
               <div class="mt-1">
                 <ngx-dynamic-hooks [content]="reply.content"></ngx-dynamic-hooks>
@@ -72,13 +92,13 @@
                   <a (click)="like(reply)" class="btn btn-sm btn-default btn-hover-success"
                      [ngClass]="reply.isLiked ? 'active' : ''">{{reply.likes}} - <i
                     class="fa fa-thumbs-up"></i></a>
-                  <a (click)="dislike(reply)" class="btn btn-sm btn-default btn-hover-danger" [ngClass]="reply.isDisliked ? 'active' : ''">
+                  <a (click)="dislike(reply)" class="btn btn-sm btn-default btn-hover-danger"
+                     [ngClass]="reply.isDisliked ? 'active' : ''">
                     <i class="fa fa-thumbs-down"></i></a>
                 </div>
               </div>
             </div>
           </div>
-          <!--          <a class="reply text-decoration-none w-100 text-center mt-2"><small>View more</small></a>-->
         </div>
         <button (click)="viewMore()" *ngIf="!last" class="btn btn-primary w-100 mt-3 mb-2 text-center"><small>View
           more</small></button>
@@ -97,3 +117,38 @@
     <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
   </div>
 </ng-template>
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Delete comment?</h5>
+  </div>
+  <div class="modal-body">
+    <p class="fw-bold">
+      Are you sure you want to delete the comment?
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="delete()">Yes</button>
+    <button class="btn btn-secondary" (click)="close()">No</button>
+  </div>
+</ng-template>
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Edit comment</h5>
+  </div>
+  <div class="modal-body">
+    <div class="textarea-container">
+          <textarea class="form-control" rows="3" placeholder="Use <code></code> blocks for code comment"
+                    [ngClass]="previewBtn ? 'no-bottom-border' : ''" [formControl]="commentInput"></textarea>
+      <div class="form-control" [style]="previewBtn ? '' : 'opacity: 0'">
+        <button class="btn btn-sm" [disabled]="!previewBtn" (click)="open(content)" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">Preview
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="edit()">Save</button>
+    <button class="btn btn-secondary" (click)="close()">Close</button>
+  </div>
+</ng-template>
+

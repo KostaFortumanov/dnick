@@ -42,7 +42,8 @@ class CommentService(
             from = "${user.firstName} ${user.lastName}",
             commentDate = LocalDateTime.now(),
             content = content,
-            discussionId = id
+            discussionId = id,
+            userId = user.id
         )
 
         return SuccessResponse(
@@ -59,6 +60,7 @@ class CommentService(
                 from = "${user.firstName} ${user.lastName}",
                 commentDate = LocalDateTime.now(),
                 content = content,
+                userId = user.id
             )
         )
         it.replies.add(reply)
@@ -75,7 +77,7 @@ class CommentService(
             user.likedComments.add(id)
             if (commentRepository.like(id) == 1) {
                 appUserRepository.save(user)
-                if(removed) {
+                if (removed) {
                     commentRepository.like(id)
                     SuccessResponse(commentRepository.getById(id).likes + 2)
                 } else {
@@ -103,7 +105,7 @@ class CommentService(
             user.dislikedComments.add(id)
             if (commentRepository.dislike(id) == 1) {
                 appUserRepository.save(user)
-                if(removed) {
+                if (removed) {
                     commentRepository.dislike(id)
                     SuccessResponse(commentRepository.getById(id).likes - 2)
                 } else {
@@ -125,4 +127,23 @@ class CommentService(
 
     private fun getUser() =
         appUserService.loadUserByUsername((SecurityContextHolder.getContext().authentication.principal as AppUser).username)!!
+
+    @Transactional
+    fun deleteComment(id: Long): Int = commentRepository.deleteComment(
+        id = id,
+        content = "Comment has been deleted",
+        from = "",
+        userId = 0L
+    )
+
+    fun findComment(id: Long) = commentRepository.findByIdOrNull(id)
+
+    fun deleteById(id: Long) = commentRepository.deleteById(id)
+
+    @Transactional
+    fun editComment(id: Long, content: String) = if (commentRepository.editComment(id, content) == 1) {
+        SuccessResponse("Comment edited successfully")
+    } else {
+        BadRequestResponse("Comment not edited")
+    }
 }

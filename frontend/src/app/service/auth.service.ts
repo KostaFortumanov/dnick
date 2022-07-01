@@ -30,13 +30,15 @@ export class AuthService {
              email: string,
              firstName: string,
              lastName: string,
-             password: string): Observable<Response<string>> {
+             password: string,
+             confirmPassword: string): Observable<Response<string>> {
         return this.http.post<Response<string>>(API + '/api/auth/register', {
             username: username,
             email: email,
             firstName: firstName,
             lastName: lastName,
             password: password,
+            confirmPassword: confirmPassword
         });
     }
 }

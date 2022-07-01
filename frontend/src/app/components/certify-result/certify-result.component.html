@@ -1,5 +1,5 @@
 <div class="background">
-  <div class="container d-flex justify-content-center align-items-center">
+  <div class="container d-flex justify-content-center align-items-center flex-column">
     <div *ngIf="result" class="card" [ngClass]="result.passed ? 'bg-success' : 'bg-danger'">
       <div class="card-header">
         Result - {{result.passed ? 'Passed' : 'Failed'}}
@@ -12,6 +12,9 @@
           <p class="mt-2 fw-bold">Total points: {{result.points.toFixed(2)}}/100</p>
           <a [href]="result.link" *ngIf="result.passed" class="btn btn-sm btn-primary">Claim certificate</a>
         </div>
+          <div>
+            <a class="btn btn-sm btn-warning d-block" routerLink="/certification">Back to certifications</a>
+          </div>
       </div>
     </div>
     <div *ngIf="!result" class="card">
@@ -21,6 +24,9 @@
       <div class="card-body">
         <p>You can download all your certificates in <a routerLink="/profile">your profile</a></p>
       </div>
+    <div class="card-footer">
+      <a class="btn btn-sm btn-warning d-block" routerLink="/certification">Back to certifications</a>
+    </div>
     </div>
   </div>
 </div>

@@ -20,4 +20,12 @@ interface CommentRepository : JpaRepository<Comment, Long> {
     @Modifying
     @Query(value = "update Comment c set c.likes=c.likes-1 where c.id=:id")
     fun dislike(id: Long): Int
+
+    @Modifying
+    @Query(value = "update Comment c set c.content=:content, c.from=:from, c.userId=:userId where c.id=:id")
+    fun deleteComment(id: Long, content: String, from: String, userId: Long): Int
+
+    @Modifying
+    @Query(value = "update Comment c set c.content=:content where c.id=:id")
+    fun editComment(id: Long, content: String): Int
 }

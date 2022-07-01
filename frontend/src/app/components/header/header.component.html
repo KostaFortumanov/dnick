@@ -7,12 +7,15 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/">Home</a>
+          <a class="nav-link" routerLinkActive="active" routerLink="/home">Learn</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/certification">Get certified</a>
         </li>
       </ul>
       <div class="d-flex" *ngIf="!tokenService.isLoggedIn()">
-        <a class="btn btn-warning me-2" routerLink="/register">Join</a>
-        <a class="btn btn-outline-light" routerLink="/login">Log in</a>
+        <a class="btn btn-warning me-2" routerLink="/auth/register">Join</a>
+        <a class="btn btn-outline-light" routerLink="/auth/login">Log in</a>
       </div>
       <div class="d-flex" *ngIf="tokenService.isLoggedIn()">
         <a class="btn btn-warning me-2" routerLink="/profile">My profile</a>

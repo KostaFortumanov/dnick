@@ -1,0 +1,27 @@
+.background {
+  background-image: url("/./assets/background.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 56px);
+}
+
+a.list-group-item {
+  opacity: 0.97;
+}
+
+a.list-group-item:hover {
+  opacity: 0.7;
+  color: black;
+  font-weight: bold;
+}
+
+button.list-group-item:hover {
+  opacity: 0.7;
+  color: black;
+  font-weight: bold;
+}
+
+.outline {
+  background: var(--bs-warning);
+}

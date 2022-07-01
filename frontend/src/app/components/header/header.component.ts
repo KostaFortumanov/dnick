@@ -17,6 +17,6 @@ export class HeaderComponent {
 
     logOut() {
         this.tokenService.logOut();
-        this.router.navigate(['/'])
+        this.router.navigate(['/home'])
     }
 }

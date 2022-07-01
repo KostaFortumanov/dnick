@@ -6,39 +6,64 @@
     <form [formGroup]="registerForm" (submit)="onSubmit()">
       <div class="form-floating mb-3">
         <input formControlName="username" type="text" class="form-control"
-               [ngClass]="submitted && registerForm.controls['username'].invalid ? 'is-invalid' : ''"
+               [ngClass]="(submitted || registerForm.controls['username'].touched) && registerForm.controls['username'].invalid ? 'is-invalid' : ''"
                placeholder="username" required>
         <label>Username</label>
       </div>
-      <div class="form-floating mb-3">
+      <div class="form-floating">
         <input formControlName="email" type="text" class="form-control"
-               [ngClass]="submitted && registerForm.controls['email'].invalid ? 'is-invalid' : ''"
+               [ngClass]="(submitted || registerForm.controls['email'].touched) && registerForm.controls['email'].invalid ? 'is-invalid' : ''"
                placeholder="email" required>
         <label>Email address</label>
+        <div style="height: 18px">
+          <div class="text-danger" style="font-size: 14px" *ngIf="registerForm.controls['email'].getError('email')">
+            Invalid email format
+          </div>
+        </div>
       </div>
       <div class="form-floating mb-3">
         <input formControlName="firstName" type="text" class="form-control"
-               [ngClass]="submitted && registerForm.controls['firstName'].invalid ? 'is-invalid' : ''"
+               [ngClass]="(submitted || registerForm.controls['firstName'].touched) && registerForm.controls['firstName'].invalid ? 'is-invalid' : ''"
                placeholder="name" required>
         <label>First name</label>
       </div>
       <div class="form-floating mb-3">
         <input formControlName="lastName" type="text" class="form-control"
-               [ngClass]="submitted && registerForm.controls['lastName'].invalid ? 'is-invalid' : ''"
+               [ngClass]="(submitted || registerForm.controls['lastName'].touched) && registerForm.controls['lastName'].invalid ? 'is-invalid' : ''"
                placeholder="name" required>
         <label>Last name</label>
       </div>
-      <div class="form-floating mb-3">
+      <div class="form-floating">
         <input formControlName="password" type="password" class="form-control"
-               [ngClass]="submitted && registerForm.controls['password'].invalid ? 'is-invalid' : ''"
+               [ngClass]="(submitted || registerForm.controls['password'].touched) && registerForm.controls['password'].invalid ? 'is-invalid' : ''"
                placeholder="password" required>
         <label>Password</label>
+        <div style="height: 18px">
+          <div class="text-danger" style="font-size: 14px" *ngIf="registerForm.controls['password'].getError('minlength')">
+            Password minimum length is 8 characters
+          </div>
+        </div>
+      </div>
+      <div class="form-floating mb-1">
+        <input formControlName="confirmPassword" type="password" class="form-control"
+               [ngClass]="(submitted || registerForm.controls['confirmPassword'].touched) && registerForm.controls['confirmPassword'].invalid ? 'is-invalid' : ''"
+               placeholder="password" required>
+        <label>Confirm Password</label>
+        <div style="height: 18px">
+          <div class="text-danger" style="font-size: 14px"
+               *ngIf="registerForm.controls['password'].value != registerForm.controls['confirmPassword'].value">
+            Passwords don't match
+          </div>
+        </div>
       </div>
       <button class="btn btn-primary" disabled *ngIf="loading">
         <span class="spinner-grow spinner-grow-sm" role="status"></span>
       </button>
       <button class="btn btn-primary" type="submit" *ngIf="!loading">
         Register
+      </button>
+      <button class="btn btn-warning ms-2" (click)="back()">
+        Back
       </button>
     </form>
   </div>

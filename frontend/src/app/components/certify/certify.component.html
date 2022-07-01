@@ -16,7 +16,7 @@
           <button [disabled]="num==certification.problems.length - 1" (click)="next()" class="btn">Next</button>
         </li>
         <li class="nav-item">
-          <button *ngIf="num==certification.problems.length - 1" (click)="submit()" class="btn btn-primary">Submit
+          <button (click)="submitModal(content)" class="btn btn-primary">Finish
           </button>
         </li>
       </ul>
@@ -24,3 +24,17 @@
   </div>
 </nav>
 <app-assignement [problem]="currentProblem" [num]="num"></app-assignement>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Finish test?</h5>
+  </div>
+  <div class="modal-body">
+    <p class="fw-bold">
+      Are you sure you want to finish the test
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="submit()">Yes</button>
+    <button class="btn btn-secondary" (click)="close()">No</button>
+  </div>
+</ng-template>

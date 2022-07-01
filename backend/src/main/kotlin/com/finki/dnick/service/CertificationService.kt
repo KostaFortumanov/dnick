@@ -82,15 +82,15 @@ class CertificationService(
             if (passed && !user.finishedCertificates.contains(it.id)) {
                 token = UUID.randomUUID().toString()
                 downloadLinkRepository.save(DownloadLink(token, user.id, it.id))
+                user.finishedCertificates.add(it.id)
             }
-            user.finishedCertificates.add(it.id)
             appUserRepository.save(user.copy(certification = null, timeStarted = null))
             return SuccessResponse(
                 CertificationResultResponse(
                     problemResults,
                     score,
                     passed,
-                    "https://dnick-api-protitip.herokuapp.com/api/certify/download?token=${
+                    "http://localhost:8080/api/certify/download?token=${
                         token ?: downloadLinkRepository.findByCertificationIdAndUserId(
                             it.id,
                             user.id

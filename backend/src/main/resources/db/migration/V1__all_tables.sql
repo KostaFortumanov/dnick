@@ -19,13 +19,6 @@ create table app_users
     constraint fk_app_users_certification_id foreign key (certification_id) references certifications (id)
 );
 
-create table activation_tokens
-(
-    token       text primary key,
-    app_user_id bigint not null,
-    constraint fk_activation_tokens_app_user_id foreign key (app_user_id) references app_users (id)
-);
-
 create table problems
 (
     id                   bigserial primary key,
@@ -46,15 +39,16 @@ create table comments
     comment_date  timestamp not null,
     content       text      not null,
     likes         integer   not null,
-    discussion_id bigint
+    discussion_id bigint,
+    user_id       bigint
 );
 
 create table comments_replies
 (
     comment_id bigint,
     replies_id bigint,
-    constraint fk_comments_replies_comment_id foreign key (comment_id) references comments (id),
-    constraint fk_comments_replies_reply_id foreign key (replies_id) references comments (id)
+    constraint fk_comments_replies_comment_id foreign key (comment_id) references comments (id) on delete cascade,
+    constraint fk_comments_replies_reply_id foreign key (replies_id) references comments (id) on delete cascade
 );
 
 create table app_user_liked_comments

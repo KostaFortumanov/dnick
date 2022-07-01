@@ -11,4 +11,5 @@ data class CommentResponse(
     val likes: Int,
     val isLiked: Boolean = false,
     val isDisliked: Boolean = false,
+    val userId: Long,
 )

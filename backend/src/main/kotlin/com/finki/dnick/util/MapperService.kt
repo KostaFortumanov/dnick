@@ -45,7 +45,8 @@ class MapperService {
                 },
                 likes,
                 liked.contains(id),
-                disliked.contains(id)
+                disliked.contains(id),
+                userId
             )
         }
 

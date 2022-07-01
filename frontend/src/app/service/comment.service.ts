@@ -35,4 +35,12 @@ export class CommentService {
     dislikeComment(id: number): Observable<Response<number>> {
         return this.http.put<Response<number>>(API + `/api/discussion/dislike/${id}`, '')
     }
+
+    deleteComment(id: number): Observable<Response<Comment>> {
+        return this.http.delete<Response<Comment>>(API + `/api/discussion/delete/${id}`)
+    }
+
+    editComment(id: number, content: String): Observable<Response<string>> {
+        return this.http.put<Response<string>>(API + `/api/discussion/edit/${id}`, content)
+    }
 }

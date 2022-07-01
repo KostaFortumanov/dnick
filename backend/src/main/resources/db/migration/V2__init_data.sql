@@ -469,25 +469,14 @@ values ('Topic', 'Basics of javascript', '/topic/1', 1),
        ('Problem', 'Data types', '/problem/2', 1),
        ('Topic', 'Arithmetic operators', '/topic/3', 1),
        ('Problem', 'Arithmetic operators', '/problem/3', 1),
---        ('Topic', 'Functions in javascript', '/topic/4', 2),
---        ('Problem', 'Functions', '/problem/4', 2),
---        ('Topic', 'Variable Declaration Keywords', '/topic/5', 2),
---        ('Problem', 'Let and const', '/problem/5', 2),
        ('Topic', 'If-else Conditional Statements', '/topic/4', 2),
-       ('Topic', 'Switch Conditional Statements', '/topic/5', 2),
-       ('Topic', 'Loops', '/topic/6', 2),
        ('Problem', 'Conditional Statements: If-else', '/problem/4', 2),
+       ('Topic', 'Switch Conditional Statements', '/topic/5', 2),
        ('Problem', 'Conditional Statements: Switch', '/problem/5', 2),
+       ('Topic', 'Loops', '/topic/6', 2),
        ('Problem', 'Loops', '/problem/6', 2),
        ('Topic', 'Arrays', '/topic/7', 3),
        ('Problem', 'Arrays', '/problem/7', 3);
---        ('Topic', 'String Basics', '/topic/10', 4),
---        ('Topic', 'Error Handling', '/topic/11', 4),
---        ('Problem', 'Try, Catch and Finally', '/problem/10', 4),
---        ('Topic', 'Objects in javascript', '/topic/12', 5),
---        ('Problem', 'Iterating over arrays', '/problem/11', 5),
---        ('Topic', 'Create a Rectangle Object', '/topic/13', 5),
---        ('Problem', 'Count Objects', '/problem/12', 5);
 
 insert into topics(content)
 values ('<div class="container">

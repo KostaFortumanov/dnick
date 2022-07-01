@@ -17,26 +17,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     homeItems = new Map()
     keys: number[] = []
-    certifications: Certification[] = []
-    selectedCertification: Certification | undefined
-    inProgress: Certification | undefined;
-    interval: any
     loading = false;
 
     destroy$ = new Subject();
 
     constructor(
-        private modalService: NgbModal,
         private router: Router,
         private topicService: TopicService,
-        private certifyService: CertifyService,
-        private messageService: MessageService,
         public tokenService: TokenService,
     ) {
     }
 
     ngOnInit() {
-
         this.loading = true;
         this.tokenService.getLogoutEvent().pipe(
             takeUntil(this.destroy$)
@@ -57,63 +49,10 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.loading = false;
             }
         })
-
-        this.certifyService.getAll().subscribe({
-            next: (data) => {
-                this.certifications = data
-            }
-        })
-
-        this.certifyService.getActiveCertification().subscribe({
-            next: (data) => {
-                this.inProgress = data.response
-                this.interval = setInterval(() => {
-                    this.inProgress!.timeLeft = this.inProgress?.timeLeft!! - 1;
-                    if (this.inProgress?.timeLeft! < 0) {
-                        this.inProgress = undefined
-                        clearInterval(this.interval)
-                    }
-                }, 1000)
-            }
-        })
-    }
-
-    open(content: any, certification: Certification) {
-        if (certification.id == this.inProgress?.id) {
-            this.router.navigate(['certify'])
-        } else {
-            this.selectedCertification = certification
-            let modal = this.modalService.open(content, {centered: true}).result
-                .then((result) => {
-
-                })
-        }
-    }
-
-    start(certificationId: number) {
-        this.certifyService.start(certificationId).subscribe({
-            next: (data) => {
-                this.close()
-                for (let i = 0; i < data.response; i++) {
-                    window.localStorage.removeItem(`certify-${i}`)
-                }
-                this.router.navigate(['certify'])
-            },
-            error: err => {
-                this.messageService.showErrorMessage(err.error.message)
-                this.close()
-            }
-        })
-    }
-
-    close() {
-        this.selectedCertification = undefined
-        this.modalService.dismissAll()
     }
 
     ngOnDestroy() {
         this.destroy$.next('')
         this.destroy$.complete()
-        clearInterval(this.interval)
     }
 }

@@ -3,7 +3,8 @@ import {FormBuilder} from "@angular/forms";
 import {MessageService} from "../../../service/message.service";
 import {AuthService} from "../../../service/auth.service";
 import {TokenService} from "../../../service/token.service";
-import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Location} from '@angular/common';
 
 @Component({
     selector: 'app-login',
@@ -25,11 +26,11 @@ export class LoginComponent {
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService,
+        private location: Location
     ) {
     }
 
     onSubmit() {
-
         this.submitted = true;
         if (this.loginForm.invalid) {
             return;
@@ -51,5 +52,9 @@ export class LoginComponent {
                 this.messageService.showErrorMessage("Invalid username or password")
             }
         })
+    }
+
+    back() {
+        this.location.back();
     }
 }
