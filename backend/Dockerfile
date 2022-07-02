@@ -1,7 +1,15 @@
+FROM gradle:7.1.0-jdk11 AS build
+
+COPY --chown=gradle:gradle . /home/gradle/src
+
+WORKDIR /home/gradle/src
+
+RUN gradle bootJar --no-daemon 
+
 FROM adoptopenjdk/openjdk11:alpine-jre
 
-ARG JAR_FILE=build/libs/dnick-0.0.1-SNAPSHOT.jar
+RUN mkdir /app
 
-COPY ${JAR_FILE} app.jar
+COPY --from=build /home/gradle/src/build/libs/dnick-0.0.1-SNAPSHOT.jar /app/spring-boot-application.jar
 
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","/app/spring-boot-application.jar"]
