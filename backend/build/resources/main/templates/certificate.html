@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <style>
+
+        @page {
+            size: A4 landscape;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+            height: 690px;
+            width: 1000px;
+        }
+
+        body {
+            font-family: Roboto, serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .certificate-container {
+            padding: 0;
+            width: 1000px;
+            margin: auto;
+        }
+
+        .certificate {
+            border: 20px solid #0C5280;
+            padding: 25px;
+            height: 600px;
+            position: relative;
+        }
+
+        .certificate-title {
+            text-align: right;
+        }
+
+        .certificate-body {
+            text-align: right;
+        }
+
+        h1 {
+            font-weight: 400;
+            font-size: 48px;
+            color: #0C5280;
+        }
+
+        .student-name {
+            font-size: 24px;
+        }
+
+        .background {
+            position: absolute;
+            width: auto;
+            height: 690px;
+        }
+
+        .signature {
+            position: absolute;
+            top: 540px;
+            left: 800px;
+            width: 150px;
+        }
+
+        .certificate-footer {
+            margin-top: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="certificate-container">
+    <img alt="" class="background" src="https://i.pinimg.com/originals/84/e8/47/84e84792bd2f7489443c4bdbc20e182c.png"/>
+    <img alt="" class="signature" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Joseph_Smith_Jr_Signature.svg/1280px-Joseph_Smith_Jr_Signature.svg.png"/>
+    <div class="certificate">
+        <div class="certificate-body">
+            <p class="certificate-title"><strong>Learn to Code</strong></p>
+            <h1>Certificate of Completion</h1>
+            <h2 th:text="${certificateTitle}"></h2>
+            <p class="student-name" th:text="${userName}"></p>
+            <div class="certificate-footer">
+                <div>
+                    <div>
+                        <p>John Smith(Owner): ______________________</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

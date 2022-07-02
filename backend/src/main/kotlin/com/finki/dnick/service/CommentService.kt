@@ -146,4 +146,6 @@ class CommentService(
     } else {
         BadRequestResponse("Comment not edited")
     }
+
+    fun findParentComment(reply: Comment): Comment = commentRepository.findByReplies(reply)
 }

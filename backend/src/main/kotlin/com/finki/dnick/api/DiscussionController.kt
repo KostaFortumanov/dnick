@@ -4,6 +4,7 @@ import com.finki.dnick.api.domain.response.BadRequestResponse
 import com.finki.dnick.api.domain.response.Response
 import com.finki.dnick.api.domain.response.SuccessResponse
 import com.finki.dnick.domain.AppUser
+import com.finki.dnick.domain.Comment
 import com.finki.dnick.service.AppUserService
 import com.finki.dnick.service.CommentService
 import com.finki.dnick.util.MapperService
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/api/discussion")
@@ -56,10 +58,21 @@ class DiscussionController(
         val disliked = user.dislikedComments
         val comment = commentService.findComment(id)!!
         val response = SuccessResponse(mapperService.mapToCommentResponse(comment, liked, disliked))
-        if(comment.replies.isEmpty() && comment.discussionId != null) {
-            commentService.deleteById(id);
+        if((comment.replies.isEmpty() || comment.replies.all { it.userId == 0L }) && comment.discussionId != null) {
+            commentService.deleteById(id)
+            SuccessResponse(Comment(id = id, from="", commentDate = LocalDateTime.now(), content = "", userId = -1))
+        } else if(comment.discussionId == null) {
+            val parent = commentService.findParentComment(comment)
+            val allDeleted = parent.userId == 0L && parent.replies.all { it.userId == 0L }
+            if(allDeleted) {
+                commentService.deleteById(parent.id)
+                SuccessResponse(Comment(id = parent.id, from="", commentDate = LocalDateTime.now(), content = "", userId = -1))
+            } else {
+                response
+            }
+        } else {
+            response
         }
-        response
     } else {
         BadRequestResponse("Comment bot found")
     }

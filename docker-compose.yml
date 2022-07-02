@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_DB=learntocode
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  back:
+    container_name: back-dnick
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/learntocode
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+
+  front:
+    container_name: front-dnick
+    build: ./frontend
+    ports:
+      - "4200:80"

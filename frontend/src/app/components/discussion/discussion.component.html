@@ -138,7 +138,7 @@
   <div class="modal-body">
     <div class="textarea-container">
           <textarea class="form-control" rows="3" placeholder="Use <code></code> blocks for code comment"
-                    [ngClass]="previewBtn ? 'no-bottom-border' : ''" [formControl]="commentInput"></textarea>
+                    [ngClass]="previewBtn ? 'no-bottom-border' : ''" [formControl]="editComment"></textarea>
       <div class="form-control" [style]="previewBtn ? '' : 'opacity: 0'">
         <button class="btn btn-sm" [disabled]="!previewBtn" (click)="open(content)" data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop">Preview

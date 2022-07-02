@@ -21,6 +21,7 @@ export class DiscussionComponent implements OnInit {
     previewBtn = false;
     showReply: boolean[] = [];
     commentInput = new FormControl('');
+    editComment = new FormControl('');
     sort = new FormControl('likes');
     @ViewChild('modal') modal!: any;
     preview: string = '';
@@ -43,14 +44,13 @@ export class DiscussionComponent implements OnInit {
     ngOnInit(): void {
         this.commentInput.valueChanges.subscribe({
             next: (data) => {
-                this.previewBtn = !!data;
-                this.preview = data.replace(/<code>\n?/g, '<app-non-editable>')
-                    .replace(/\n?<\/code>/g, '</app-non-editable>')
-                    .replace(/</g, '< ')
-                    .replace(/>/g, ' >')
-                    .replace(/\n/g, '<br>')
-                    .replace(/< app-non-editable >/g, '<app-non-editable>')
-                    .replace(/< \/app-non-editable >/g, '</app-non-editable>');
+                this.setPreview(data);
+            },
+        });
+
+        this.editComment.valueChanges.subscribe({
+            next: (data) => {
+                this.setPreview(data);
             },
         });
 
@@ -87,6 +87,17 @@ export class DiscussionComponent implements OnInit {
         });
 
         this.$comments.next('add');
+    }
+
+    setPreview(data: string) {
+        this.previewBtn = !!data;
+        this.preview = data.replace(/<code>\n?/g, '<app-non-editable>')
+            .replace(/\n?<\/code>/g, '</app-non-editable>')
+            .replace(/</g, '< ')
+            .replace(/>/g, ' >')
+            .replace(/\n/g, '<br>')
+            .replace(/< app-non-editable >/g, '<app-non-editable>')
+            .replace(/< \/app-non-editable >/g, '</app-non-editable>');
     }
 
     viewMore() {
@@ -155,29 +166,32 @@ export class DiscussionComponent implements OnInit {
         this.selectedComment = comment;
         this.modalService.open(content, {centered: true}).result
             .then((result) => {
-
+                this.close();
             });
     }
 
     delete() {
-        this.close();
         this.commentService.deleteComment(this.selectedComment?.id!!).subscribe({
             next: (data) => {
-                for (let i = 0; i < this.comments.length; i++) {
-                    if (this.comments[i].id == data.response.id) {
-                        if (this.comments[i].replies.length == 0) {
+                if (data.response.userId == -1) {
+                    for (let i = 0; i < this.comments.length; i++) {
+                        if (this.comments[i].id == data.response.id) {
                             this.comments.splice(i, 1);
-                        } else {
-                            this.comments[i] = data.response;
                         }
                     }
-                    for (let j = 0; j < this.comments[i].replies.length; j++) {
-                        if (this.comments[i].replies[j].id == data.response.id) {
-                            this.comments[i].replies[j] = data.response;
+                } else {
+                    for (let i = 0; i < this.comments.length; i++) {
+                        if (this.comments[i].id == data.response.id) {
+                            this.comments[i] = data.response;
+                        }
+                        for (let j = 0; j < this.comments[i]?.replies.length; j++) {
+                            if (this.comments[i].replies[j].id == data.response.id) {
+                                this.comments[i].replies[j] = data.response;
+                            }
                         }
                     }
                 }
-                console.log(data.response);
+                this.close();
                 this.messageService.showSuccessMessage('Comment deleted successfully');
             },
             error: (err) => {
@@ -193,12 +207,19 @@ export class DiscussionComponent implements OnInit {
     }
 
     openEditModal(content: any, comment: Comment) {
-
-        this.commentInput.setValue('asdas')
         this.selectedComment = comment;
+        const value = comment.content.replace(/<\/app-non-editable>/g, '< /app-non-editable >')
+            .replace(/<app-non-editable>/g, '< app-non-editable >')
+            .replace(/<br>/g, '\n')
+            .replace(/ >/g, '>')
+            .replace(/< /g, '<')
+            .replace(/<\/app-non-editable>/g, '\n</code>')
+            .replace(/<app-non-editable>/g, '<code>\n');
+
+        this.editComment.setValue(value);
         this.modalService.open(content, {centered: true, size: 'xl'}).result
             .then((result) => {
-                this.close()
+                this.close();
             });
     }
 
@@ -216,7 +237,7 @@ export class DiscussionComponent implements OnInit {
                         }
                     }
                 }
-                this.close()
+                this.close();
             },
         });
     }

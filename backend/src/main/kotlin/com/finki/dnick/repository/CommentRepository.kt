@@ -13,6 +13,8 @@ interface CommentRepository : JpaRepository<Comment, Long> {
 
     fun findAllByDiscussionId(discussionId: Long, pageable: Pageable): Page<Comment>
 
+    fun findByReplies(replies: Comment): Comment
+
     @Modifying
     @Query(value = "update Comment c set c.likes=c.likes+1 where c.id=:id")
     fun like(id: Long): Int
