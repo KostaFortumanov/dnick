@@ -34,7 +34,7 @@ class CodeExecutionService(
 
             try {
                 val client: HttpClient = HttpClientBuilder.create().build()
-                val post = HttpPost("http://navigation-api.duckdns.org:2358/submissions/?wait=true")
+                val post = HttpPost("http://judge:2358/submissions/?wait=true")
                 val postingString = StringEntity(JSONObject(request).toString())
                 post.entity = postingString
                 post.setHeader("Content-type", "application/json")
