@@ -108,7 +108,7 @@ class CertificationService(
             downloadLinkRepository.findAllByUserId(user.id).map {
                 MyProfileResponse(
                     certificationRepository.findByIdOrNull(it.certificationId)?.title ?: "",
-                    "https://dnick-api-protitip.herokuapp.com/api/certify/download?token=${it.token}"
+                    "http://localhost:8080/api/certify/download?token=${it.token}"
                 )
             }
         }
